@@ -18,13 +18,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this){
-            Log.d("Sky", it.toString())
-        }
-        viewModel.getShopList()
-
-
+        setViewModel()
         setContentView(binding.root)
         setInsets()
     }
@@ -39,7 +33,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+private fun setViewModel(){
+    viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+    viewModel.shopList.observe(this){
+    }
+}
 
 private fun setInsets(){
     ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
