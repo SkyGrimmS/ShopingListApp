@@ -1,7 +1,5 @@
 package com.example.shopinglist.presentation
-
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+        setupButtonClickListener()
         setupRecyclerView()
         setupViewModel()
         setContentView(binding.root)
@@ -75,7 +73,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            Log.d("Sky", it.toString())
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
+        }
+    }
+
+    private fun setupButtonClickListener(){
+        binding.btnAddShopItem.setOnClickListener{
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
