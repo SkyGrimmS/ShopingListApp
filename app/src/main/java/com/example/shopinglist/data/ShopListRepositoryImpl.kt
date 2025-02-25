@@ -7,18 +7,18 @@ import com.example.shopinglist.domain.ShopListRepository
 import kotlin.random.Random
 
 object ShopListRepositoryImpl: ShopListRepository {
-    private val shopListLiveData = MutableLiveData<List<ShopItem>>()
-    private val shopList = sortedSetOf<ShopItem>(
-        {o1, n2 -> o1.id.compareTo(n2.id)}
-    )
 
     private var autoIncrementId = 0
+    private const val ITEM_COUNT = 20
 
+    private val shopListLiveData = MutableLiveData<List<ShopItem>>()
+    private val shopList = sortedSetOf<ShopItem>(
+        {oldItem, newItem -> oldItem.id.compareTo(newItem.id)}
+    )
 
 
     init {
-        val itemCount = 20
-        for (i in 0 until itemCount){
+        for (i in 0 until ITEM_COUNT){
             val item = ShopItem("Name $i", i, Random.nextBoolean())
             addShopItem(item)
         }
