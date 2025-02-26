@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setInsets()
     }
+
     private fun setupRecyclerView() {
         val rvShopList = binding.rvShopList
         with(rvShopList) {
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
         initAdaptorListeners(rvShopList)
     }
+
     private fun initAdaptorListeners(rvShopList: RecyclerView) {
         setupSwipeListener(rvShopList)
         shopListAdapter.onShopItemClickListener = {
@@ -55,12 +57,14 @@ class MainActivity : AppCompatActivity() {
             viewModel.changeEnableState(it)
         }
     }
+
     private fun initListeners() {
         binding.btnAddShopItem.setOnClickListener {
             val intent = ShopItemActivity.newIntentAddItem(this)
             startActivity(intent)
         }
     }
+
     private fun initObservers() {
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
