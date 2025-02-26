@@ -38,7 +38,6 @@ class ShopListAdapter :
         holder.itemView.setOnClickListener {
             onShopItemClickListener?.invoke(shopItem)
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
