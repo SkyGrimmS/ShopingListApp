@@ -1,4 +1,4 @@
-package com.example.shopinglist.presentation
+package com.example.shopinglist.presentation.itemOverview
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.databinding.ActivityMainBinding
+import com.example.shopinglist.presentation.addEditNote.ShopItemActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -49,13 +50,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdaptorListeners(rvShopList: RecyclerView) {
         setupSwipeListener(rvShopList)
+
         shopListAdapter.onShopItemClickListener = {
             val intent = ShopItemActivity.newIntentEditItem(this, it.id)
             startActivity(intent)
         }
-        shopListAdapter.onShopItemLongClickListener = {
-            viewModel.changeEnableState(it)
-        }
+
+        shopListAdapter.onShopItemLongClickListener = { viewModel.changeEnableState(it) }
+
     }
 
     private fun initListeners() {
