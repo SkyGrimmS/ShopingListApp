@@ -11,6 +11,7 @@ import com.example.shopinglist.domain.ShopItem
 
 class ShopItemViewModel : ViewModel() {
     private val repository = ShopListRepositoryImpl
+
     private val getShopItemUseCase = GetShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)
     private val editShopItemUseCase = EditShopItemUseCase(repository)
@@ -37,6 +38,7 @@ class ShopItemViewModel : ViewModel() {
         val item = getShopItemUseCase.getShopItem(shopItemId)
         _shopItem.value = item
     }
+
     fun addShopItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
@@ -46,11 +48,12 @@ class ShopItemViewModel : ViewModel() {
             _shopItem.value?.let {
                 val item = it.copy(name = name, count = count)
                 addShopItemUseCase.addShopItem(item)
+
                 finishWork()
             }
-
         }
     }
+
     fun editShopItem(inputName: String?, inputCount: String) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
@@ -99,6 +102,4 @@ class ShopItemViewModel : ViewModel() {
     private fun finishWork(){
         _shootCloseScreen.value = Unit
     }
-
-
 }

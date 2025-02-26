@@ -1,4 +1,5 @@
 package com.example.shopinglist.presentation
+
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,16 +19,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
 
-
-        setupButtonClickListener()
+        initListeners()
         setupRecyclerView()
-        setupViewModel()
+        initObservers()
         setContentView(binding.root)
         setInsets()
     }
-
     private fun setupRecyclerView() {
         val rvShopList = binding.rvShopList
         with(rvShopList) {
@@ -43,10 +43,28 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
-
-        setupLongClickListener()
-        setupClickListener()
+        initAdaptorListeners(rvShopList)
+    }
+    private fun initAdaptorListeners(rvShopList: RecyclerView) {
         setupSwipeListener(rvShopList)
+        shopListAdapter.onShopItemClickListener = {
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
+        }
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.changeEnableState(it)
+        }
+    }
+    private fun initListeners() {
+        binding.btnAddShopItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
+        }
+    }
+    private fun initObservers() {
+        viewModel.shopList.observe(this) {
+            shopListAdapter.submitList(it)
+        }
     }
 
     private fun setupSwipeListener(rvShopList: RecyclerView) {
@@ -70,34 +88,6 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
-
-    private fun setupClickListener() {
-        shopListAdapter.onShopItemClickListener = {
-            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
-            startActivity(intent)
-        }
-    }
-
-    private fun setupButtonClickListener(){
-        binding.btnAddShopItem.setOnClickListener{
-            val intent = ShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
-        }
-    }
-
-    private fun setupLongClickListener() {
-        shopListAdapter.onShopItemLongClickListener = {
-            viewModel.changeEnableState(it)
-        }
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.shopList.observe(this) {
-            shopListAdapter.submitList(it)
-        }
-    }
-
 
     private fun setInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->

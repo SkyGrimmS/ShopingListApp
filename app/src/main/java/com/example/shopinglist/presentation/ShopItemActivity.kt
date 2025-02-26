@@ -18,13 +18,15 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityShopItemBinding.inflate(layoutInflater)
-        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
-        Log.d("Sky", mode.toString())
 
 
 
+
+
+        getExtraIntent()
         setContentView(binding.root)
         setInsets()
+
     }
 
 
@@ -36,7 +38,10 @@ class ShopItemActivity : AppCompatActivity() {
         }
     }
 
-
+    private fun getExtraIntent(){
+        val mode = intent.getStringExtra(EXTRA_SCREEN_MODE)
+        Log.d("Sky", mode.toString())
+    }
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mod"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
