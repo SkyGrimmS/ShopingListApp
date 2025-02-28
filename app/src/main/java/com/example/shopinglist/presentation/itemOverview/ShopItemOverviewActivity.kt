@@ -9,18 +9,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.databinding.ActivityMainBinding
-import com.example.shopinglist.presentation.addEditNote.ShopItemActivity
+import com.example.shopinglist.presentation.addEditNote.AddEditShopItemActivity
 
-class MainActivity : AppCompatActivity() {
+class ShopItemOverviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: ShopItemOverviewViewModel
     private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ShopItemOverviewViewModel::class.java]
 
 
         initListeners()
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         setupSwipeListener(rvShopList)
 
         shopListAdapter.onShopItemClickListener = {
-            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            val intent = AddEditShopItemActivity.newIntentEditItem(this, it.id)
             startActivity(intent)
         }
 
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnAddShopItem.setOnClickListener {
-            val intent = ShopItemActivity.newIntentAddItem(this)
+            val intent = AddEditShopItemActivity.newIntentAddItem(this)
             startActivity(intent)
         }
     }

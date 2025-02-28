@@ -8,10 +8,8 @@ import com.example.shopinglist.domain.AddShopItemUseCase
 import com.example.shopinglist.domain.EditShopItemUseCase
 import com.example.shopinglist.domain.GetShopItemUseCase
 import com.example.shopinglist.domain.ShopItem
-import com.example.shopinglist.utils.isCountValid
-import com.example.shopinglist.utils.isNameValid
 
-class ShopItemViewModel : ViewModel() {
+class AddEditShopItemViewModel : ViewModel() {
     private val repository = ShopListRepositoryImpl
 
     private val getShopItemUseCase = GetShopItemUseCase(repository)
