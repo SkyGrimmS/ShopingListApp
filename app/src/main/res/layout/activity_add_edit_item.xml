@@ -6,4 +6,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.addEditNote.AddEditShopItemActivity"
-    tools:layout="@layout/fregment_shop_item" />
+    tools:layout="@layout/fragment_add_edit_item" />

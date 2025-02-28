@@ -1,5 +1,6 @@
 package com.example.shopinglist.presentation.itemOverview
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,18 +9,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopinglist.databinding.ActivityMainBinding
+import com.example.shopinglist.databinding.ActivityItemOverviewBinding
 import com.example.shopinglist.presentation.addEditNote.AddEditShopItemActivity
 
 class ShopItemOverviewActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityItemOverviewBinding
     private lateinit var viewModel: ShopItemOverviewViewModel
     private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityItemOverviewBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[ShopItemOverviewViewModel::class.java]
 
 

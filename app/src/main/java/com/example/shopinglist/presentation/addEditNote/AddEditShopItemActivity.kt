@@ -1,6 +1,7 @@
 package com.example.shopinglist.presentation.addEditNote
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,22 +10,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopinglist.R
-import com.example.shopinglist.databinding.ActivityShopItemBinding
+import com.example.shopinglist.databinding.ActivityAddEditItemBinding
 import com.example.shopinglist.domain.ShopItem
 
 class AddEditShopItemActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityShopItemBinding
+    private lateinit var binding: ActivityAddEditItemBinding
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityShopItemBinding.inflate(layoutInflater)
+        binding = ActivityAddEditItemBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
         parseIntentScreenMode()
-        parseIntentId()
         handlerScreenMode(screenMode)
         setInsets()
     }
@@ -52,6 +52,8 @@ class AddEditShopItemActivity : AppCompatActivity() {
             throw RuntimeException("Unknown screen mode $mode")
         }
         screenMode = mode
+
+        parseIntentId()
     }
 
     private fun parseIntentId() {
@@ -62,7 +64,6 @@ class AddEditShopItemActivity : AppCompatActivity() {
             shopItemId = intent.getIntExtra(EXTRA_SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
         }
     }
-
 
     private fun setInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -78,7 +79,6 @@ class AddEditShopItemActivity : AppCompatActivity() {
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
         private const val MODE_EDIT = "mod_edit"
         private const val MODE_ADD = "mod_add"
-
         private const val MODE_UNKNOWN = ""
 
 

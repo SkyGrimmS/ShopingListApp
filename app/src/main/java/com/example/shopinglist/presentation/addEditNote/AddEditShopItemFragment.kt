@@ -10,7 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopinglist.R
-import com.example.shopinglist.databinding.FregmentShopItemBinding
+import com.example.shopinglist.databinding.FragmentAddEditItemBinding
 import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.utils.isCountValid
 import com.example.shopinglist.utils.isNameValid
@@ -21,7 +21,7 @@ class AddEditShopItemFragment(
 ) : Fragment() {
 
 
-    private lateinit var binding: FregmentShopItemBinding
+    private lateinit var binding: FragmentAddEditItemBinding
     private lateinit var viewModel: AddEditShopItemViewModel
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class AddEditShopItemFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FregmentShopItemBinding.inflate(layoutInflater)
+        binding = FragmentAddEditItemBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -78,7 +78,6 @@ class AddEditShopItemFragment(
         }
 
         with(binding) {
-
             btnSave.setOnClickListener {
                 val isNameValid = etName.text?.toString().isNameValid()
                 val isCountValid = etCount.text.toString().isCountValid()
@@ -98,6 +97,7 @@ class AddEditShopItemFragment(
                     )
                 }
             }
+
             if (screenMode == MODE_EDIT) {
                 launchEditMode()
             }
