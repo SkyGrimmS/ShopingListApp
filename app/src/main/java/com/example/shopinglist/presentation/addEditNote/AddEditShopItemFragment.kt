@@ -32,7 +32,7 @@ class AddEditShopItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[AddEditShopItemViewModel::class.java]
-        handlerScreenMode()
+        setupViews()
         setupListeners()
         observeViewModel()
         setInsets()
@@ -67,9 +67,8 @@ class AddEditShopItemFragment : Fragment() {
         }
     }
 
-    private fun handlerScreenMode() {
+    private fun setupViews() {
         val screenMode = getScreenMode()
-        handleErrors()
         with(binding) {
             btnSave.setOnClickListener {
                 val isNameValid = etName.text?.toString().isNameValid()
@@ -105,27 +104,27 @@ class AddEditShopItemFragment : Fragment() {
         }
     }
 
-    private fun handleErrors() {
-        val mode = getScreenMode()
-        val id = getItemId()
+    private fun getItemId(): Int {
+        val id = requireArguments().getInt(SHOP_ITEM_ID)
 
-        if (mode == null) {
-            throw RuntimeException("Param screen mode is absent")
+        if (id == ShopItem.UNDEFINED_ID) {
+            throw RuntimeException("Param shop item ID is absent")
         }
+        return id
+    }
+
+    private fun getScreenMode(): String {
+        val mode = requireArguments().getString(SCREEN_MODE)
+            ?: throw RuntimeException("Param screen mode is absent")
+
         if (mode != MODE_EDIT && mode != MODE_ADD) {
             throw RuntimeException("Unknown screen mode $mode")
         }
-        if (mode == MODE_EDIT && id == ShopItem.UNDEFINED_ID) {
-                throw RuntimeException("Param shop item ID is absent")
+        if (mode == MODE_EDIT) {
+            throw RuntimeException("Param shop item ID is absent")
         }
-    }
 
-    private fun getItemId(): Int {
-        return requireArguments().getInt(SHOP_ITEM_ID)
-    }
-
-    private fun getScreenMode():String?{
-        return requireArguments().getString(SCREEN_MODE)
+        return mode
     }
 
     private fun setInsets() {
