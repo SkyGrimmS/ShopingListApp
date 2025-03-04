@@ -106,7 +106,6 @@ class AddEditShopItemFragment : Fragment() {
 
     private fun getItemId(): Int {
         val id = requireArguments().getInt(SHOP_ITEM_ID)
-
         if (id == ShopItem.UNDEFINED_ID) {
             throw RuntimeException("Param shop item ID is absent")
         }
@@ -120,10 +119,6 @@ class AddEditShopItemFragment : Fragment() {
         if (mode != MODE_EDIT && mode != MODE_ADD) {
             throw RuntimeException("Unknown screen mode $mode")
         }
-        if (mode == MODE_EDIT) {
-            throw RuntimeException("Param shop item ID is absent")
-        }
-
         return mode
     }
 
