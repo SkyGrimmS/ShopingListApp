@@ -1,4 +1,5 @@
 package com.example.shopinglist.utils
+
 fun String?.isNameValid():Boolean = !this.isNullOrBlank()
 
 fun String?.isCountValid(): Boolean {

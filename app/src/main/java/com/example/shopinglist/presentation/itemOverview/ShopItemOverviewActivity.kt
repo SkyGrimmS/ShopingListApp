@@ -1,6 +1,5 @@
 package com.example.shopinglist.presentation.itemOverview
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopinglist.databinding.ActivityItemOverviewBinding
 import com.example.shopinglist.presentation.addEditNote.AddEditShopItemActivity
+import com.example.shopinglist.utils.MAX_POOL_SIZE
+import com.example.shopinglist.utils.VIEW_TYPE_DISABLED
+import com.example.shopinglist.utils.VIEW_TYPE_ENABLED
 
 class ShopItemOverviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemOverviewBinding
@@ -38,12 +40,12 @@ class ShopItemOverviewActivity : AppCompatActivity() {
             adapter = shopListAdapter
 
             recycledViewPool.setMaxRecycledViews(
-                ShopListAdapter.VIEW_TYPE_ENABLED,
-                ShopListAdapter.MAX_POOL_SIZE
+                VIEW_TYPE_ENABLED,
+                MAX_POOL_SIZE
             )
             recycledViewPool.setMaxRecycledViews(
-                ShopListAdapter.VIEW_TYPE_DISABLED,
-                ShopListAdapter.MAX_POOL_SIZE
+                VIEW_TYPE_DISABLED,
+                MAX_POOL_SIZE
             )
         }
         initAdaptorListeners(rvShopList)

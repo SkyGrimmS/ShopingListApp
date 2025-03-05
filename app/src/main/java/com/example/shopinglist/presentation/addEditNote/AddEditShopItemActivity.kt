@@ -10,7 +10,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopinglist.R
 import com.example.shopinglist.databinding.ActivityAddEditItemBinding
-import com.example.shopinglist.domain.ShopItem
+import com.example.shopinglist.utils.SCREEN_MODE
+import com.example.shopinglist.utils.SHOP_ITEM_ID
+import com.example.shopinglist.core.ScreenModes
+import com.example.shopinglist.utils.UNDEFINED_ID
 
 class AddEditShopItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddEditItemBinding
@@ -32,23 +35,22 @@ class AddEditShopItemActivity : AppCompatActivity() {
 
         screenMode?.let {
             val fragment = when (screenMode) {
-                MODE_EDIT -> AddEditShopItemFragment.newInstanceEditItem(shopItemId)
-                MODE_ADD -> AddEditShopItemFragment.newInstanceAddItem()
-                else -> throw throw RuntimeException("Unknown screen mode $screenMode")
+                ScreenModes.MODE_EDIT -> EditShopItemFragment.newInstanceEditItem(shopItemId)
+                ScreenModes.MODE_ADD -> AddShopItemFragment.newInstanceAddItem()
             }
 
             supportFragmentManager.beginTransaction()
                 .add(R.id.shopItemContainer, fragment)
                 .commit()
-        } ?: throw throw RuntimeException("Absent screen mode")
+        } ?: throw RuntimeException("Absent screen mode")
     }
 
     private fun getItemId(): Int {
-        return intent.getIntExtra(SHOP_ITEM_ID, ShopItem.UNDEFINED_ID)
+        return intent.getIntExtra(SHOP_ITEM_ID, UNDEFINED_ID)
     }
 
-    private fun getScreenMode(): String? {
-        return intent.getStringExtra(SCREEN_MODE)
+    private fun getScreenMode(): ScreenModes? {
+        return intent.getStringExtra(SCREEN_MODE)?.let { ScreenModes.valueOf(it) }
     }
 
     private fun setInsets() {
@@ -60,20 +62,15 @@ class AddEditShopItemActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val SCREEN_MODE = "extra_mod"
-        private const val SHOP_ITEM_ID = "extra_shop_item_id"
-        private const val MODE_EDIT = "mod_edit"
-        private const val MODE_ADD = "mod_add"
-
         fun newIntentAddItem(context: Context): Intent {
             val intent = Intent(context, AddEditShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_ADD)
+            intent.putExtra(SCREEN_MODE, ScreenModes.MODE_ADD.name)
             return intent
         }
 
         fun newIntentEditItem(context: Context, shopItemId: Int): Intent {
             val intent = Intent(context, AddEditShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_EDIT)
+            intent.putExtra(SCREEN_MODE, ScreenModes.MODE_EDIT.name)
             intent.putExtra(SHOP_ITEM_ID, shopItemId)
             return intent
         }

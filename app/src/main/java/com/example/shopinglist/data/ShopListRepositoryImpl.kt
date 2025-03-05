@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.shopinglist.domain.ShopItem
 import com.example.shopinglist.domain.ShopListRepository
+import com.example.shopinglist.utils.UNDEFINED_ID
 import kotlin.random.Random
 
 object ShopListRepositoryImpl: ShopListRepository {
@@ -24,7 +25,7 @@ object ShopListRepositoryImpl: ShopListRepository {
     }
 
     override fun addShopItem(shopItem: ShopItem) {
-        if (shopItem.id == ShopItem.UNDEFINED_ID){
+        if (shopItem.id == UNDEFINED_ID){
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
