@@ -13,12 +13,14 @@
         android:id="@+id/rvShopList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/btnAddShopItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/item_shop_enabled" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,10 +28,12 @@
         style="@style/RoundButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="22dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/add_new_item_btn_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_input_add" />
 
