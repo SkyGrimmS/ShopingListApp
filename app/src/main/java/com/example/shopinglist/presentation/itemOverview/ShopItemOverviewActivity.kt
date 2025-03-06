@@ -5,12 +5,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopinglist.R
 import com.example.shopinglist.databinding.ActivityItemOverviewBinding
 import com.example.shopinglist.presentation.addEditNote.AddEditShopItemActivity
+import com.example.shopinglist.presentation.addEditNote.AddShopItemFragment
+import com.example.shopinglist.presentation.addEditNote.EditShopItemFragment
+import com.example.shopinglist.utils.LAND_MODE
 import com.example.shopinglist.utils.MAX_POOL_SIZE
+import com.example.shopinglist.utils.ONE_PANE_MODE
 import com.example.shopinglist.utils.VIEW_TYPE_DISABLED
 import com.example.shopinglist.utils.VIEW_TYPE_ENABLED
 
@@ -18,13 +25,14 @@ class ShopItemOverviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemOverviewBinding
     private lateinit var viewModel: ShopItemOverviewViewModel
     private lateinit var shopListAdapter: ShopListAdapter
+    private var shopItemOverviewContainer:FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityItemOverviewBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this)[ShopItemOverviewViewModel::class.java]
-
+        shopItemOverviewContainer = binding.shopItemContainer
 
         initListeners()
         setupRecyclerView()
@@ -55,8 +63,14 @@ class ShopItemOverviewActivity : AppCompatActivity() {
         setupSwipeListener(rvShopList)
 
         shopListAdapter.onShopItemClickListener = {
-            val intent = AddEditShopItemActivity.newIntentEditItem(this, it.id)
-            startActivity(intent)
+            val mode = getOrientationMode()
+            when(mode){
+                ONE_PANE_MODE -> {
+                    val intent = AddEditShopItemActivity.newIntentEditItem(this, it.id)
+                    startActivity(intent)
+                }
+                LAND_MODE -> launchFragment(EditShopItemFragment.newInstanceEditItem(it.id))
+            }
         }
 
         shopListAdapter.onShopItemLongClickListener = { viewModel.changeEnableState(it) }
@@ -65,8 +79,15 @@ class ShopItemOverviewActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnAddShopItem.setOnClickListener {
-            val intent = AddEditShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+
+            val mode = getOrientationMode()
+            when(mode){
+                ONE_PANE_MODE -> {
+                    val intent = AddEditShopItemActivity.newIntentAddItem(this)
+                    startActivity(intent)
+                }
+                LAND_MODE -> launchFragment(AddShopItemFragment.newInstanceAddItem())
+            }
         }
     }
 
@@ -96,6 +117,24 @@ class ShopItemOverviewActivity : AppCompatActivity() {
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvShopList)
+    }
+
+    private fun getOrientationMode():Int{
+        return if (shopItemOverviewContainer == null){
+            ONE_PANE_MODE
+        }else{
+            LAND_MODE
+        }
+    }
+
+    private fun launchFragment(fragment: Fragment){
+        supportFragmentManager.popBackStack()
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.shopItemContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+
     }
 
     private fun setInsets() {

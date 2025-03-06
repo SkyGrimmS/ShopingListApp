@@ -1,6 +1,5 @@
 package com.example.shopinglist.presentation.addEditNote
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.shopinglist.R
+import com.example.shopinglist.core.ScreenModes
 import com.example.shopinglist.databinding.ActivityAddEditItemBinding
 import com.example.shopinglist.utils.SCREEN_MODE
 import com.example.shopinglist.utils.SHOP_ITEM_ID
-import com.example.shopinglist.core.ScreenModes
 import com.example.shopinglist.utils.UNDEFINED_ID
 
 class AddEditShopItemActivity : AppCompatActivity() {
@@ -24,11 +23,14 @@ class AddEditShopItemActivity : AppCompatActivity() {
         binding = ActivityAddEditItemBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        handlerScreenMode()
+
+        if (savedInstanceState == null){
+            handlerScreenMode()
+        }
+
         setInsets()
     }
 
-    @SuppressLint("CommitTransaction")
     private fun handlerScreenMode() {
         val screenMode = getScreenMode()
         val shopItemId = getItemId()
@@ -40,7 +42,7 @@ class AddEditShopItemActivity : AppCompatActivity() {
             }
 
             supportFragmentManager.beginTransaction()
-                .add(R.id.shopItemContainer, fragment)
+                .replace(R.id.shopItemContainer, fragment)
                 .commit()
         } ?: throw RuntimeException("Absent screen mode")
     }
