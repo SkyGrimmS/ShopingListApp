@@ -24,7 +24,7 @@ class AddEditShopItemActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             handlerScreenMode()
         }
 

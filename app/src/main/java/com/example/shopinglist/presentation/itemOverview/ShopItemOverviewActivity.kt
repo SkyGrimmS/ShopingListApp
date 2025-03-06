@@ -22,10 +22,11 @@ import com.example.shopinglist.utils.VIEW_TYPE_DISABLED
 import com.example.shopinglist.utils.VIEW_TYPE_ENABLED
 
 class ShopItemOverviewActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityItemOverviewBinding
     private lateinit var viewModel: ShopItemOverviewViewModel
     private lateinit var shopListAdapter: ShopListAdapter
-    private var shopItemOverviewContainer:FragmentContainerView? = null
+    private var shopItemOverviewContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,14 +64,7 @@ class ShopItemOverviewActivity : AppCompatActivity() {
         setupSwipeListener(rvShopList)
 
         shopListAdapter.onShopItemClickListener = {
-            val mode = getOrientationMode()
-            when(mode){
-                ONE_PANE_MODE -> {
-                    val intent = AddEditShopItemActivity.newIntentEditItem(this, it.id)
-                    startActivity(intent)
-                }
-                LAND_MODE -> launchFragment(EditShopItemFragment.newInstanceEditItem(it.id))
-            }
+            handleNavigationFlow(it.id)
         }
 
         shopListAdapter.onShopItemLongClickListener = { viewModel.changeEnableState(it) }
@@ -79,17 +73,28 @@ class ShopItemOverviewActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnAddShopItem.setOnClickListener {
-
-            val mode = getOrientationMode()
-            when(mode){
-                ONE_PANE_MODE -> {
-                    val intent = AddEditShopItemActivity.newIntentAddItem(this)
-                    startActivity(intent)
-                }
-                LAND_MODE -> launchFragment(AddShopItemFragment.newInstanceAddItem())
-            }
+            handleNavigationFlow()
         }
     }
+
+    private fun handleNavigationFlow(itemId: Int? = null) {
+        val mode = getOrientationMode()
+        when (mode) {
+            ONE_PANE_MODE -> {
+                val intent = itemId?.let {
+                    AddEditShopItemActivity.newIntentEditItem(this, it)
+                } ?: AddEditShopItemActivity.newIntentAddItem(this)
+
+                startActivity(intent)
+            }
+
+            LAND_MODE -> itemId?.let {
+                launchFragment(EditShopItemFragment.newInstanceEditItem(it))
+            } ?: launchFragment(AddShopItemFragment.newInstanceAddItem())
+
+        }
+    }
+
 
     private fun initObservers() {
         viewModel.shopList.observe(this) {
@@ -119,15 +124,15 @@ class ShopItemOverviewActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
 
-    private fun getOrientationMode():Int{
-        return if (shopItemOverviewContainer == null){
+    private fun getOrientationMode(): Int {
+        return if (shopItemOverviewContainer == null) {
             ONE_PANE_MODE
-        }else{
+        } else {
             LAND_MODE
         }
     }
 
-    private fun launchFragment(fragment: Fragment){
+    private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
 
         supportFragmentManager.beginTransaction()

@@ -73,7 +73,7 @@ class AddEditShopItemViewModel : ViewModel() {
             addShopItemUseCase.addShopItem(shopItem)
 
             finishWork()
-        }else{
+        } else {
             handleError(isCountValid, isNameValid)
         }
     }

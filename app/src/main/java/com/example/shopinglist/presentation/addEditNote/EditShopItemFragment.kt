@@ -12,12 +12,7 @@ class EditShopItemFragment : BaseShopItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[AddEditShopItemViewModel::class.java]
         viewModel.getShopItem(getItemId())
-
-        setupListeners()
-        setupObserves()
 
     }
 
